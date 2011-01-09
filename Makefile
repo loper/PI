@@ -11,3 +11,5 @@ clean:
 	rm -f *.*~
 	rm -f *~
 	rm -f *.pdf 
+	rm -f *.toc
+

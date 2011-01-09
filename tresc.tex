@@ -1,5 +1,5 @@
 \section{Słowem wstępu}
-Każdy z nas zapewne staje często przed problemem kopiowania dużej ilości danych, czy to z nośników wymiennych, czy też z drugiego komputera. Czasami jednak jest to kopiowanie zaledwie kilku nowych, bądź zmienionych, plików, tak jak to ma miejsce podczas tworzenia kopii bezpieczeństwa. Nie ma wtedy sensu powielanie całych katalogów, a jedynie tych plików, które są zmodyfikowane lub nie znajdują się u nas. Z pomocą przychodzą nam liczne programy, stworzone specjalnie, by ułatwić i zautomatyzować tą żmudną pracę. 
+Każdy z nas zapewne staje często przed problemem kopiowania dużej ilości danych, czy to z nośników wymiennych, czy też z drugiego komputera. Czasami jednak jest to kopiowanie zaledwie kilku nowych, bądź zmienionych, plików, tak jak to ma miejsce podczas tworzenia kopii bezpieczeństwa. Nie ma wtedy sensu powielanie całych katalogów, a jedynie tych plików, które są zmodyfikowane lub nie znajdują się na naszych stacjach. Z pomocą przychodzą nam liczne programy, stworzone specjalnie, by ułatwić i zautomatyzować tą żmudną pracę. 
 
 Programy do synchronizacji plików to narzędzia, które automatycznie kopiują, przenoszą, nadpisują i usuwają pliki pomiędzy wybranymi folderami. Jest to bardzo przydatna opcja, gdy korzystamy z kilku komputerów, a na każdym z nich chcemy mieć aktualne wersje danych. Synchronizacja polega więc na uaktualnieniu plików we wskazanych folderach do najnowszych dostępnych wersji oraz na selekcji jedynie tych, które takiej aktualizacji wymagają, co znacznie przyspiesza ten proces (więcej w przykładzie w rozdziale \ref{przyklad_lokal}.). Co więcej, możliwa jest ona w obie strony, także po szyfrowanym kanale.
 
@@ -169,6 +169,9 @@ $ cat /etc/rsyncd.conf
     read only = no
     auth users = spychalm
     secrets file = /etc/rsync_users
+[backup]
+    path=/NAS/backup
+    comment = archiwum kopii
 (...)
 \end{verbatim}
 Jak widać. katalogi mogą być zabezpieczone przed nieautoryzowanym dostępem. Cała konfiguracja sprowadza się do podania lokalizacji pliku\footnote{istnieje tu pewna dowolność w wyborze lokalizacji i nazwy pliku, jednak wiele źródeł podaje folder ,,/etc/'' lub ,,/etc/rsync/'' za typowy; należy pamiętać o nadaniu praw odczytu i zapisu jedynie dla użytkownika root przy pomocy np.: ,,chmod 600 /etc/rsync\_users; chown root.root /etc/rsync\_users''} \verb|secrets file = plik_z_hasłami| (jak wyżej) oraz na umieszczeniu w nim linii z nazwą użytkownika oraz hasłem, oddzielonych dwukropkiem: 
@@ -179,8 +182,21 @@ spychalm:tajnehaslo
 (...)
 \end{verbatim}
 
+Dla zobrazowania:
+\begin{verbatim}
+$ rsync -auv 192.168.128.3::shared
+receiving incremental file list
+drwxrwx---        4096 2011/01/09 19:54:16 .
+drwxr-x---        4096 2011/01/09 20:02:29 skrypty
+-rw-------         300 2011/01/09 20:02:29 skrypty/ssh.bat
+-rw-------         215 2011/01/09 20:02:24 skrypty/zdalny.sh
+
+sent 29 bytes  received 138 bytes  334.00 bytes/sec
+total size is 716  speedup is 4.29
+\end{verbatim}
+
 \subsubsection{za pomocą SSH}
-Czasem zachodzi potrzeba synchronizacji poufnych danych, bądź sytuacja, gdy na serwerze nie jest uruchomiony \verb|rsyncd|. Posłużyć możemy się wtedy opcją kopiowania przez tunel SSH\footnote{o ile ta usługa jest obecna, a my posiadamy aktywne konto}. W takim przypadku używamy parametru ,,\verb|-e|'', podając (w cudzysłowiu) \verb|"ssh [-l <uzytkownik>] [-p <port>] ..."|. Dla bieżącego użytkownika oraz portu 22 będzie to po prostu: \fbox{ rsync -av -e ,,ssh'' serwer:/var/tmp }. Zobaczmy jak wygląda takie wywołanie (do serwera sshd na porcie \verb|12345|):
+Czasem zachodzi potrzeba synchronizacji poufnych danych, bądź sytuacja, gdy na serwerze nie jest uruchomiony \verb|rsyncd|. Posłużyć możemy się wtedy opcją kopiowania przez tunel SSH\footnote{o ile ta usługa jest obecna, a my posiadamy aktywne konto}. W takim przypadku używamy parametru ,,\verb|-e|'', podając (w cudzysłowie) \verb|"ssh [-l <uzytkownik>] [-p <port>] ..."|. Dla bieżącego użytkownika oraz portu 22 będzie to po prostu: \fbox{ rsync -av -e ,,ssh'' serwer:/var/tmp }. Zobaczmy jak wygląda takie wywołanie (do serwera sshd na porcie \verb|12345|):
 \begin{verbatim}
 $ rsync -avn -e "ssh -p 12345" serwer:~/sync 
 Warning: Permanently added '[serwer]' (RSA) to the list of known hosts.
@@ -239,11 +255,11 @@ W katalogu \verb|C:\cygwin\bin| pojawia nam się pożądana aplikacja \verb|rsyn
 Tworzenie skryptów sprowadza się do uruchomienia dowolnego edytora tekstowego na systemie z rodziny Windows, np. Notatnika. Wystarczy skopiować jeden z moich skryptów, wkleić w edytorze i zapisać z rozszerzeniem ,,.bat'', np. ,,synchronizacja.bat''. Poniżej znajduje się ich lista podzielonych, w zależności od przeznaczenia i rodzaju synchronizacji, plików wsadowych. Jednak, przed przystąpieniem do ich uruchomienia, należy skonfigurować odpowiednie zmienne.
 \subsubsection{Wersja pełna/minimalna Cygwina}
 \label{pelmin}
-W zależności od wybranej wersji, czy to pełnej (rodział \ref{full}), czy też minimalnej (rozdział \ref{mini}), ustawiamy odpowiednio zmienną:
+W zależności od wybranej wersji, czy to pełnej (rozdział \ref{full}), czy też minimalnej (rozdział \ref{mini}), ustawiamy odpowiednio zmienną:
 \begin{verbatim}
-SET sciezka=...
+SET SCIEZKA=...
 \end{verbatim}
-Jako, że wersja pełna instaluje się standardowo w katalogu \verb|C:\cygwin|, dla tej wersji ustawiamy: \verb|SET sciezka=C:\cygwin|. Dla wersji minimalnej, gdzie ścieżką domyślną jest \verb|C:\Program Files\cwRsync|, wpisujemy: \verb|SET sciezka=%PROGRAMFILES%\cygwin|\footnote{\%PROGRAMFILES\% to zmienna systemowa zawierającą lokalizację folderu ,,Program Files''}.
+Jako, że wersja pełna instaluje się standardowo w katalogu \verb|C:\cygwin|, dla tej wersji ustawiamy: \verb|SET SCIEZKA=C:\cygwin|. Dla wersji minimalnej, gdzie ścieżką domyślną jest \verb|C:\Program Files\cwRsync|, wpisujemy: \verb|SET SCIEZKA=%PROGRAMFILES%\cwRsync|\footnote{\%PROGRAMFILES\% to zmienna systemowa zawierającą lokalizację folderu ,,Program Files''}.
 
 \subsubsection{Synchronizacja lokalna}
 Poniżej listing pliku, który umożliwi synchronizację folderów lokalnych lub na zdalnym serwerze:
@@ -252,58 +268,56 @@ Poniżej listing pliku, który umożliwi synchronizację folderów lokalnych lub
 cls
 setlocal
 
-SET ZRODLO=/cygdrive/c/katalog
-SET CEL=/home/loper/docelowy
 SET PARAMETRY=avu
 SET SCIEZKA=C:\cygwin
 SET PATH=%SCIEZKA%\bin;%PATH%
 
-rsync -%PARAMETRY% %ZRODLO% %CEL%
+rsync -%PARAMETRY% /cygdrive/c/katalog/ /cygdrive/d/inny_katalog
 \end{verbatim}
+\noindent
+Jeżeli chcemy, dodajemy deklarację zmiennych:
+\begin{verbatim}
+SET CEL=/cygdrive/d/inny_katalog
+SET ZRODLO=/cygdrive/c/katalog/
+\end{verbatim}
+Mamy wtedy: \fbox{rsync -\%PARAMETRY\% \%ZRODLO\% \%CEL\%}, dzięki czemu wygląda to przejrzyściej, a my sami ustawiamy jedynie zmienne, nie martwiąc się o składnię polecenia.\\
 
-Krótkie wyjaśnienie poszczególnych instrukcji:
+\noindent
+Krótkie wyjaśnienie poszczególnych instrukcji:\\
 \verb|@echo off, cls, setlocal| - wyłącza ciągłe wypisywanie ścieżki, czyści ekran i włącza możliwość definiowania zmiennych lokalnych, z których to będziemy korzystać,\\
-\verb|SET zrodlo=...| - podajemy lokalizację źródłową; tutaj wymagane jest dłuższe wyjaśnienie.\\W Windowsie ścieżki składają się z litery dysku (np. C, D, E), dwukropka i odwróconego ukośnika (np. \verb|C:\katalog|). Użycie znaku dwukropka, w składni polecenia \verb|rsync|, zostałoby potraktowane jako ścieżka do katalogu zdalnego, dlatego stosujemy tu konwencję znaną z UNIX'a, to jest: zamieniamy odwrócone ukośniki na nieodwrócone, a w miejsce litery dysku wpisujemy \verb|/cygdrive/<litera_dysku>|. W ten sposób nasza przykładowa lokalizacja wygląda następująco: \verb|/cygdrive/c/katalog|.\\
-\verb|SET CEL=...| - podajemy miejsce docelowe,\\
-\verb|SET PARAMETRY=...| - parametry synchonizacji,\\
+\verb|SET PARAMETRY=...| - parametry synchronizacji,\\
 \verb|SET SCIEZKA=...| - ścieżka, gdzie zainstalowano Cygwina (patrz \ref{pelmin}),\\
 \verb|SET PATH=%SCIEZKA%\bin;%PATH%| - dopisywanie lokalizacji Cygwina do zmiennej systemowej, w której wyszukiwane są programy, dzięki czemu możemy użyć samej nazwy \verb|rsync|,\\
-\verb|rsync -%PARAMETRY% %ZRODLO% %CEL%| - uruchomienie synchronizacji plików.
+\verb|SET CEL=...| - podajemy miejsce docelowe,\\
+\verb|SET ZRODLO=...| - podajemy lokalizację źródłową; tutaj wymagane jest dłuższe wyjaśnienie.\\W Windowsie ścieżki składają się z litery dysku (np. C, D, E), dwukropka i odwróconego ukośnika (np. \verb|C:\katalog|). Użycie znaku dwukropka, w składni polecenia \verb|rsync|, zostałoby potraktowane jako ścieżka do katalogu zdalnego, dlatego stosujemy tu konwencję znaną z UNIX'a, to jest: zamieniamy odwrócone ukośniki na nieodwrócone, a w miejsce litery dysku wpisujemy \verb|/cygdrive/<litera_dysku>|. W ten sposób nasza przykładowa lokalizacja wygląda następująco: \verb|/cygdrive/c/katalog|.\\
 
 \subsubsection{Synchronizacja zdalna}
 Dla synchronizacji zdalnej nie trzeba zbytnio zmieniać powyższego skryptu - wystarczy modyfikacja jednej zmiennej. Przy wysyłaniu na zdalny serwer, jako cel podajemy \verb|[LOGIN@]HOST:CEL|, na przykład: \\\verb|SET cel=spychalm@192.168.100.5:/home/spychalm/testowy|. \\
 Pobieranie jest analogiczne - ustawiamy, jako źródło, \verb|[LOGIN@]HOST:ŹRÓDŁO|.
 \\ Nie będę tutaj omawiać szczegółów, ponieważ wyjaśniłem wszystko w rozdziale \ref{zdaln}. 
-\\Przykład pobierania danych:
+\\\\
+Przykład pobierania danych:
 \begin{verbatim}
 @echo off
 cls
 setlocal
 
-SET ZRODLO=/cygdrive/c/strona_www
-SET CEL=~/publiczny/
+SET ZRODLO=~/www/
+SET CEL=/cygdrive/c/strona_www
 SET PARAMETRY=av
 SET SCIEZKA=C:\cygwin
 SET PATH=%SCIEZKA%\bin;%PATH%
 
-rsync -%PARAMETRY% spychalm@edi.iem.pw.edu.pl:~/dane .
+rsync -%PARAMETRY% spychalm@volt.iem.pw.edu.pl:%ZRODLO% %CEL%
 \end{verbatim}
 
 \subsubsection{Poprzez usługę rsyncd}
-Podobnie jak poprzednio, skorzystamy z wcześniejszego opisu składni polecenia \verb|rsync|, wracając do rozdziału \ref{demon}. Można ustawić tu zmienne zgodnie ze schematem, jak przy synchronizacji zdalnej, jednak pokażę inne rozwiązanie. Zmienimy składnię polecenia \verb|rsync -%parametry% %zrodlo% %cel%|. \\
-Dla wysyłania:\\\fbox{rsync -\%parametry\% \%zrodlo\% [LOGIN@]HOST::MODUL} \\lub\\ \fbox{rsync -\%parametry\% \%zrodlo\% rsync://[LOGIN@]HOST[:PORT]/\%cel\%} podając oczywiście login, host i modul lub port i cel, do którego się odwołujemy.\\
-Dla odbierania postępujemy analogicznie. Jedną z modyfikacji może być tu: \verb|rsync -%parametry% 192.168.100.5::do_sciagniecia /cygdrive/c/pobrane|.
-\\\\
-Jeżeli chcemy, dodajemy deklarację zmiennych:
-\begin{verbatim}
-SET login=spychalm
-SET host=volt.iem.pw.edu.pl
-SET modul=wazne_dane
-\end{verbatim}
-Mamy wtedy: \fbox{rsync -\%parametry\% \%zrodlo\% \%login\%@\%host\%::\%modul\%}, dzięki czemu wygląda to przejrzyściej, a my sami ustawiamy jedynie zmienne, nie martwiąc się o składnę polecenia.
+Podobnie jak poprzednio, skorzystamy z wcześniejszego opisu składni polecenia \verb|rsync|, wracając do rozdziału \ref{demon}. Można ustawić tu zmienne zgodnie ze schematem, jak przy synchronizacji zdalnej, jednak pokażę inne rozwiązanie. Zmienimy składnię polecenia \verb|rsync -%PARAMETRY% %ZRODLO% %CEL%|. \\
+Dla wysyłania:\\\fbox{rsync -\%parametry\% \%zrodlo\% [LOGIN@]HOST::MODUL} \\lub\\ \fbox{rsync -\%parametry\% \%zrodlo\% rsync://[LOGIN@]HOST[:PORT]/\%cel\%} podając oczywiście login, host i moduł lub port i cel, do którego się odwołujemy.\\
+Dla odbierania postępujemy analogicznie. Jedną z modyfikacji może być tu: \verb|rsync -%parametry% 192.168.100.5::wazne_dane /cygdrive/c/pobrane|.
 
 \subsubsection{Za pomocą SSH}
-Zastować można tu co najmniej dwa rozwiązania: do parametrów dopisujemy \verb|e "ssh [-l <uzytkownik>] [-p <port>] ..."| lub to samo możemy umieścić po \verb|rsync -%parametry%|. Przykład: \verb|set parametry=ave "ssh -l spychalm"|. Cały skrypt mógłby wyglądać następująco:
+Zastosować można tu co najmniej dwa rozwiązania: do parametrów dopisujemy \verb|e "ssh [-l <uzytkownik>] [-p <port>] ..."| lub to samo umieszczamy po \verb|rsync -%parametry%|. Przykład: \verb|set PARAMETRY=ave "ssh -l spychalm"|. Cały skrypt mógłby wyglądać następująco:
 \begin{verbatim}
 @echo off
 cls
@@ -312,9 +326,9 @@ setlocal
 SET LOGIN=spychalm
 SET PORT=4321
 SET HOST=edi.iem.pw.edu.pl
-SET ZRODLO=/cygdrive/c/strona_www
-SET CEL=~/publiczny/
-SET PARAMETRY=auve "ssh -l %LOGIN% -p %PORT%
+SET ZRODLO=/cygdrive/c/strona_www/
+SET CEL=~/www
+SET PARAMETRY=auve "ssh -l %LOGIN% -p %PORT%"
 SET SCIEZKA=%PROGRAMFILES%\cwRsync
 SET PATH=%SCIEZKA%\bin;%PATH%
 
@@ -322,21 +336,33 @@ rsync -%PARAMETRY% %ZRODLO% %HOST%:%CEL%
 \end{verbatim}
 
 \subsubsection{Podsumowanie}
-Do każego ze skryptów można dopisać na końcu linijkę \verb|PAUSE| - umożliwi ona wyświetlenie wyniku operacji - nie zamknie okna, jeśli wywołaliśmy skrypt bezpośrednio (tj. klikając na niego - nie z poziomu konsoli). W przypadku używania tych plików wsadowych w połączeniu z Harmonogramem Zadań, autostartem - kiedy jest automatycznie startowany, lepiej pominąć tą opcję (a nawet parametr \verb|verbose (-v)|), ponieważ w takiej sytuacji nie potrzebujemy okna z informacją. 
+Do każdego ze skryptów można dopisać na końcu linijkę \verb|PAUSE| - umożliwi ona wyświetlenie wyniku operacji - nie zamknie okna, jeśli wywołaliśmy skrypt bezpośrednio (to znaczy klikając na niego - nie z poziomu konsoli). W przypadku używania tych plików wsadowych w połączeniu z ,,Harmonogramem Zadań'', autostartem - kiedy jest automatycznie startowany, lepiej pominąć tą opcję (a nawet parametr \verb|verbose (-v)|), ponieważ w takiej sytuacji nie potrzebujemy okna z informacją. 
 
-Oczywiście każdy może napisać od nowa lub dowolnie edytować te skrypty, stąd zamysł podania przeze mnie składni w rozdziale \ref{rsyncskladnia}. Celowo, za każdym razem, zmieniałem dane i parametry dla pokazania, że są one jedynie przykładem i każdy ustala je według potrzeb.
+Oczywiście każdy może napisać od nowa lub dowolnie edytować te skrypty, stąd zamysł podania przeze mnie składni w rozdziale \ref{rsyncskladnia}. Celowo, za każdym razem, zmieniałem dane i parametry dla pokazania, że są one jedynie przykładem i każdy ustala je według własnych upodobań.
 
 \subsection{Ustawianie kluczy w SSH}
-Łącząc się ze zdalnym hostem poprzed SSH, jesteśmy za każdym razem pytani o hasło. Ciągłe jego wprowadzanie może okazać się niewygodne. Z pomocą przychodzi autoryzacja przy pomocy kluczy - dzięki czemu możemy ustawić zupełnie inne hasło lub nawet puste, czym zajmiemy się w tym rozdziale. Nie będę tu omawiał szczegółowo wszystkich parametrów komendy \verb|ssh-keygen|, ponieważ jest ona dokładnie opisana w internecie\cite{8}.
-\\Całość sprowadza się do wykonania kilku kroków:
+Łącząc się ze zdalnym hostem poprzez SSH, jesteśmy za każdym razem pytani o hasło. Ciągłe jego wprowadzanie może okazać się niewygodne. Z pomocą przychodzi autoryzacja przy pomocy kluczy - dzięki czemu możemy ustawić zupełnie inne hasło lub nawet puste, czym zajmiemy się w tym rozdziale. Nie będę tu omawiał szczegółowo wszystkich parametrów komendy \verb|ssh-keygen|, ponieważ jest ona dokładnie opisana w internecie\cite{8}.
+\\Całość sprowadza się do wykonania kilku kroków (działa tylko z pełną wersją Cygwina):
 \begin{enumerate}
-\item {\bf Generujemy klucze: publiczny i prywatny - \verb|$ssh-keygen -t rsa|}. Na pytanie o hasło/passphraze wciskamy enter. Polecenie wygeneruje dwa pliki, domyślnie w katalogu domowym w ,,ssh''. Pierwszy o nazwie ,,id\_rsa'' zawiera klucz prywatny, który nie może być nikomu udostępniany. Drugi o nazwie ,,id\_rsa.pub'' zawiera klucz publiczny, który wysyłamy na dowolny serwer, z którym zamierzamy ustanowiać połączenie.
+\item {\bf Uruchamiamy Cygwina}, z poziomu pulpitu (skrótu), lokalizacji programu (np. C:/cygwin/Cygwin.bat) lub Menu Start (Cygwin Bash Shell).
+\item {\bf Generujemy klucze: publiczny i prywatny - \verb|$ssh-keygen -t rsa|}. Na pytanie o hasło/passphraze wciskamy enter. Polecenie wygeneruje dwa pliki, domyślnie w katalogu domowym w ,,ssh''. Pierwszy o nazwie ,,id\_rsa'' zawiera klucz prywatny, który nie może być nikomu udostępniany. Drugi o nazwie ,,id\_rsa.pub'' zawiera klucz publiczny, który wysyłamy na dowolny serwer, z którym zamierzamy ustanawiać połączenie.
 
-\item {\bf Wysyłamy klucz publiczny na serwer}, z którym chcemy łączyć się bez hasła. Użyjemy do tego polecenia \verb|scp ~/ssh/id_rsa.pub <uzytkownik>@host:~/|\footnote{można użyć tu innego sposobu wysyłania, jednak ten jest najprostszy}
+\item {\bf Wysyłamy klucz publiczny na serwer}, z którym chcemy łączyć się bez hasła. Użyjemy do tego polecenia \verb|scp ~/ssh/id_rsa.pub [uzytkownik]@host:~/|\footnote{można użyć tu innego sposobu wysyłania, jednak ten jest najprostszy}
 
 \item {\bf Logujemy się na zdalny host}, jeszcze przy pomocy hasła. Tam poleceniem \verb|cat ~/id_rsa.pub >> ~/ssh/authorized_keys|\footnote{jeżeli katalog ,,ssh'' nie istnieje, zakładamy go przy pomocy ,,mkdir ssh''} dodajemy nasz klucz do listy kluczy autoryzowanych do łączenia się z naszym hostem.
 \end{enumerate}
 Od tej pory mamy możliwość logowania się bez hasła do zdalnego serwera, a tym samym nasza zautomatyzowana synchronizacja nie będzie nas za każdym razem pytała o hasło, oczywiście zachowując bezpieczny kanał transmisji plików.
 
+Dużym ułatwieniem jest skorzystanie z gotowego programu ,,ssh-copy-id''\cite{9}, który wykonuje wysyłanie i dopisanie klucza na zdalnym komputerze za nas. Generujemy klucze, a następnie uruchamiamy \verb|ssh-copy-id  [uzytkownik]@host|.
+
 \section{Testowanie}
-Cały proces instalacji i konfiguracji przeprowadziłem początkowo na maszynie wirtualnej z zainstalowanym systemem Windows 7. Następnie całość powtórzyłem na innej maszynie wirtualnej z Windowsem XP oraz na komputerach, z zainstalowanymi tymi wersjami Windowsa, jako ich macierzystymi systemami operacyjnymi . Przykładowe programy (z rozdziału \ref{dosynch}). testowane były tylko na systemach wirtualnych, z racji braku Windowsa na moim notebooku. Na żadnym z tych urządzeń nie zauważywałem problemu z pobieraniem, instalacją czy konfiguracją \verb|cwRsync|'a. Jednakże, może się tak zdarzyć, że podane przeze mnie strony internetowe lub wersje programów, nie będą dostępne. Należy wówczas skorzystać z wyszukiwarki, np. \verb|http://google.pl| i za jej pomocą znaleźć serwery lustrzane lub strony, gdzie podane oprogramowanie będzie możliwe do pobrania. 
+Cały proces instalacji i konfiguracji przeprowadziłem początkowo na maszynie wirtualnej z zainstalowanym systemem Windows 7. Następnie całość powtórzyłem na innej maszynie wirtualnej z Windowsem XP oraz na komputerach, z zainstalowanymi tymi wersjami Windowsa, jako ich macierzystymi systemami operacyjnymi. Przykładowe programy (z rozdziału \ref{dosynch}). testowane były tylko na systemach wirtualnych, z racji braku Windowsa na moim notebooku. Na żadnym z tych urządzeń nie zauważyłem problemu z pobieraniem, instalacją czy konfiguracją \verb|cwRsync|'a. Jednakże, może się tak zdarzyć, że podane przeze mnie strony internetowe lub wersje programów, nie będą dostępne. Należy wówczas skorzystać z wyszukiwarki internetowej i za jej pomocą znaleźć serwery lustrzane lub strony, gdzie podane oprogramowanie będzie możliwe do pobrania. 
+
+\section{Wnioski}
+Z synchronizacją danych spotykamy się na co dzień. Większość z nas kopiuje dane z jednego nośnika na inny - jedni robią to ,,ręcznie'', inni mają do tego skrypty. Osobiście uważam, że druga opcja jest znacznie korzystniejsza, zwłaszcza, gdy chcemy, by ten proces wykonywał się automatycznie. 
+
+Pomimo dostępności mnogiej liczby programów do tego celu oraz przetestowania przeze mnie części z nich, stwierdzam, że żaden nie zastąpił szybkiego i łatwego rozwiązania konsolowego, a mianowicie programu \verb|rsync|. Po poświęceniu chwili czasu, mamy napisane różnorakie pliki wsadowe, do użycia, w zależności od potrzeb. Możemy je umieszczać na serwerach czy terminalach, nawet tych bez środowiska graficznego i uruchamiać je zdalnie. W systemach z rodziny Windows, dodając go do ,,Harmonogramu Zadań'', a w Linuxie - do zadań \verb|cron|'a, nie musimy ciągle pamiętać o zrobieniu kopii zapasowej. Uważam to za ogromne ułatwienie zwłaszcza dla osób, które mają z tym problemy. 
+
+
+
+
