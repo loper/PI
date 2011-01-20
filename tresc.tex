@@ -1,12 +1,12 @@
 \section{Słowem wstępu}
 Każdy z nas zapewne staje często przed problemem kopiowania dużej ilości danych, czy to z nośników wymiennych, czy też z drugiego komputera. Czasami jednak jest to kopiowanie zaledwie kilku nowych, bądź zmienionych, plików, tak jak to ma miejsce podczas tworzenia kopii bezpieczeństwa. Nie ma wtedy sensu powielanie całych katalogów, a jedynie tych plików, które są zmodyfikowane lub nie znajdują się na naszych stacjach. Z pomocą przychodzą nam liczne programy, stworzone specjalnie, by ułatwić i zautomatyzować tą żmudną pracę. 
 
-Programy do synchronizacji plików to narzędzia, które automatycznie kopiują, przenoszą, nadpisują i usuwają pliki pomiędzy wybranymi folderami. Jest to bardzo przydatna opcja, gdy korzystamy z kilku komputerów, a na każdym z nich chcemy mieć aktualne wersje danych. Synchronizacja polega więc na uaktualnieniu plików we wskazanych folderach do najnowszych dostępnych wersji oraz na selekcji jedynie tych, które takiej aktualizacji wymagają, co znacznie przyspiesza ten proces (więcej w przykładzie w rozdziale \ref{przyklad_lokal}.). Co więcej, możliwa jest ona w obie strony, także po szyfrowanym kanale.
+Programy do synchronizacji plików to narzędzia, które automatycznie kopiują, przenoszą, nadpisują i usuwają pliki pomiędzy wybranymi folderami. Jest to bardzo przydatna opcja, gdy korzystamy z kilku komputerów, a na każdym z nich chcemy mieć aktualne wersje danych. Synchronizacja polega więc na uaktualnieniu plików we wskazanych folderach do najnowszych dostępnych wersji oraz na selekcji jedynie tych, które takiej aktualizacji wymagają, co znacznie przyspiesza ten proces (więcej w przykładzie w rozdziale \ref{przyklad_lokal}). Co więcej, możliwa jest ona w obie strony, także po szyfrowanym kanale.
 
 \subsection{Założenia projektu}
 Celem mojego projektu było zaprojektowanie i oprogramowanie systemu do synchronizacji plików pomiędzy wieloma komputerami. W pierwszej jego części należało wykonać przegląd istniejących rozwiązań zarówno komercyjnych jak i darmowych. Zadaniem praktycznym było oprogramowanie systemu synchronizacji przy użyciu programu rsync lub pokrewnego.
 
-Zadanie polegało na napisaniu odpowiednich plików wsadowych ,,.bat'', które ,,jednym kliknięciem''  pozwolą na synchronizację dowolnych katalogów i plików. Ważny jest tu dokładny opis parametrów skryptu, aby ułatwić konfigurację danych do synchronizacji, lokalizacji i adresu serwera. Dokładna instrukcja tworzenia tych plików oraz działania, znajduje się w rozdziale \\*\ref{cwrsync}. ,,cwRsync''.
+Zadanie polegało na napisaniu odpowiednich plików wsadowych ,,.bat'', które ,,jednym kliknięciem''  pozwolą na synchronizację dowolnych katalogów i plików. Ważny jest tu dokładny opis parametrów skryptu, aby ułatwić konfigurację danych do synchronizacji, lokalizacji i adresu serwera. Dokładna instrukcja tworzenia tych plików oraz działania, znajduje się w rozdziale \\*\ref{skrypty}.
 
 \section{Programy do synchronizacji}
 \label{dosynch}
@@ -16,7 +16,7 @@ Wśród długiej i ciągle rozrastającej się listy oprogramowania do synchroni
 Lista ta jest bardzo obszerna, jednakże postanowiłem zainstalować i przetestować kilka z nich.
 
 \subsubsection{Allway Sync}
-Uwagę moją przykuł darmowy \verb|Allway Sync| \cite{1}, który posiada bardzo intuicyjną obsługę (chociażby dzięki polskiej nakładce oraz licznym podpowiedziom), działanie na więcej niż jednym katalogu, synchronizację po sieci lokalnej i internetowej oraz z wymiennym dyskiem (patrz rys. \ref{allway}) oraz, jako jeden z niewielu, umożliwiał instalację na pendrive\'ie lub zewnętrznym dysku twardym (wersja \verb|Allway Sync 'n' Go|) i posiadał dość rozbudowaną opcję automatycznej synchronizacji: przy starcie programu, po podłączeniu urządzenia, wykryciu zmian w folderach, co określony czas i oczywiście o podanej godzinie.
+Uwagę moją przykuł darmowy \verb|Allway Sync| \cite{1}, który posiada bardzo intuicyjną obsługę (chociażby dzięki polskiej nakładce oraz licznym podpowiedziom), działanie na więcej niż jednym katalogu, synchronizację po sieci lokalnej i internetowej oraz z wymiennym dyskiem (patrz rys. \ref{allway}) oraz, jako jeden z niewielu, umożliwiał instalację na pendrive{}'ie lub zewnętrznym dysku twardym (wersja \verb|Allway Sync 'n' Go|) i posiadał dość rozbudowaną opcję automatycznej synchronizacji: przy starcie programu, po podłączeniu urządzenia, wykryciu zmian w folderach, co określony czas i oczywiście o podanej godzinie.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{img/s3.jpeg}
@@ -25,7 +25,7 @@ Uwagę moją przykuł darmowy \verb|Allway Sync| \cite{1}, który posiada bardzo
 \end{figure}
 
 \subsubsection{GoodSync}
-Godny uwagi jest także \verb|GoodSync| firmy \verb|Siber Systems| \cite{2} - również darmowy (oczywiście istnieje jego płatna wersja, oferująca więcej niż 3 zaplanowane zadania po 100 plików w każdym z nich). Oprócz podstawowych opcji, obecnych w każdym z testowanych przeze mnie programów, o bardzo dobrej analizie zależności między zadaniami (zmiany w jednym z nich, powodują natychmiastową reakcję w innym zadaniu, posiadającym te same ustalone foldery, a na przykład inną lokalizację docelową), kopiowanie po SMB, FTP, WebDAV i SSH, szyfrowanie i kompresję kopii, przejrzysty interfejs (patrz rys. \ref{goodsync}), dobrą automatyzację zadań (choć tu nie zadziała mi opcja synchronizacji przez FTP po wykryciu połączenia z internetem). Program również w polskiej wersji językowej.
+Godny uwagi jest także \verb|GoodSync| firmy \verb|Siber Systems| \cite{2} - również darmowy (oczywiście istnieje jego płatna wersja, oferująca więcej niż 3 zaplanowane zadania po 100 plików w każdym z nich). Oprócz podstawowych opcji, obecnych w każdym z testowanych przeze mnie programów, wyróżniał się bardzo dobrą analizą zależności między zadaniami (zmiany w jednym z nich, powodują natychmiastową reakcję w innym zadaniu, posiadającym te same ustalone foldery, a na przykład inną lokalizację docelową), kopiowanie po SMB, FTP, WebDAV i SSH, szyfrowanie i kompresję kopii, przejrzysty interfejs (patrz rys. \ref{goodsync}), dobrą automatyzację zadań (choć tu nie zadziała mi opcja synchronizacji przez FTP po wykryciu połączenia z internetem). Program również dostępny w polskiej wersji językowej.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{img/s2.jpeg}
@@ -34,7 +34,7 @@ Godny uwagi jest także \verb|GoodSync| firmy \verb|Siber Systems| \cite{2} - r�
 \end{figure}
 
 \subsection{Dysk wirtualny}
-W tej kategorii warto wspomnieć o \verb|PowerFolder Basic| \cite{3} (patrz rys. \ref{power}). Jest to wieloplatformowa aplikacja napisana w języku Java. Posiada moduł, który działa jako systemowy proces i monitoruje wszelkie zmiany, bardzo wygodną możliwość zarządzania, dostępnego z poziomu przeglądarki. Producent oferuje 1GB dysk wirtualny (obecnie na okres 371 dni od rejestracji), również dostępny przez przeglądarkę. Ciekawą opcją jest wykonywanie (plików ,,.bat'') po zakończonej synchronizacji, dobrą kompresję danych ,,w locie'', bezpieczne przesyłanie danych (HTTPS, WebDAV przez SSL), ochronę przed przypadkowym usuwaniem plików, sumy kontrolne i wznawianie przerwanych transferów.\\
+W tej kategorii warto wspomnieć o \verb|PowerFolder Basic| \cite{3} (patrz rys. \ref{power}). Jest to wieloplatformowa aplikacja napisana w języku Java. Posiada bardzo wygodną możliwość zarządzania, dostępnego z poziomu przeglądarki oraz moduł, który działa jako systemowy proces i monitoruje wszelkie zmiany. Producent oferuje 1GB dysk wirtualny (obecnie na okres 371 dni od rejestracji), również dostępny przez przeglądarkę. Ciekawą opcją jest wykonywanie (plików ,,.bat'') po zakończonej synchronizacji, dobrą kompresję danych ,,w locie'', bezpieczne przesyłanie danych (HTTPS, WebDAV przez SSL), ochronę przed przypadkowym usuwaniem plików, sumy kontrolne i wznawianie przerwanych transferów.\\
 Minusem jest tu konieczność posiadania w miarę szybkiego łącza i plików o małych rozmiarach, w przeciwnym wypadku kopiowanie może trwać bardzo długo.
 \begin{figure}[h!]
 	\centering
@@ -43,7 +43,7 @@ Minusem jest tu konieczność posiadania w miarę szybkiego łącza i plików o 
 	\label{power}
 \end{figure}
 \subsection{Kompatybilne z rsyncd}
-Niestety, większość aplikacji nie posiada możliwości łączenia się z usługą \verb|rsyncd| (standardowo na porcie 873). Jedynym programem umożliwiającym synchronizację kompatybilną z rsync, jaki udało mi się znaleźć, jest 
+Niestety, większość aplikacji nie posiada możliwości łączenia się z usługą \verb|rsyncd| (nasłuchującą standardowo na porcie 873). Jedynym programem umożliwiającym synchronizację kompatybilną z rsync, jaki udało mi się znaleźć, jest 
 \verb|cwRsync| \cite{4}. Jako, że założeniem mojego projektu indywidualnego (opisanym na wstępie) było stworzenie systemu synchronizacji katalogów i plików pomiędzy klientem na systemie Microsoft Windows a serwerem rsyncd na systemie Linux, będzie to idealne rozwiązanie do wykonania, postawionego przeze mnie, zadania. Z tej racji, programowi temu poświęciłem osobny, \ref{cwrsync}. rozdział.
 
 \subsection{Podsumowanie}
@@ -61,8 +61,10 @@ Celowo rezygnowałem tu z rozwiązań komercyjnych, ponieważ darmowe programy o
 
 \section{Rsync}
 \label{rsyncskladnia}
-\verb|Rsync| (z angielskiego ,,remote synchronization'' - zdalna synchronizacja) to protokół synchronizacji plików przez sieć. Zwykłe systemy przesyłania różnic (takie jak popularny diff/patch) wymagają istnienia obu wersji po jednej stronie, na podstawie których tworzona jest lista różnic a następnie przesyłana przez sieć. Rsync działa w odmienny sposób - przez sieć wysyłany jest spis plików z hashami bloków (zwykle ok. 1 kB), po czym na drugiej maszynie program sprawdza, które z fragmentów już posiada. Daje to bardzo dobre rezultaty i umożliwia radzenie sobie z sytuacjami, które dla patch/diff byłyby trudne do realizacji, jak przeniesienia plików.
-Rsync umożliwia też dostęp na bieżąco, w przeciwieństwie do ,,raz na dzień'' w przypadku patch/diff.\cite{5}
+\verb|Rsync| (z angielskiego ,,\textbf{R}emote \textbf{synch}ronization'' - zdalna synchronizacja) to protokół synchronizacji plików przez sieć. Zwykłe systemy przesyłania różnic (takie jak popularny diff/patch) wymagają istnienia obu wersji po jednej stronie, na podstawie których tworzona jest lista różnic, a następnie przesyłana przez sieć. 
+
+Rsync działa w odmienny sposób - przez sieć wysyłany jest spis plików z hashami bloków (zwykle ok. 1 kB), po czym na drugiej maszynie program sprawdza, które z fragmentów już posiada. Daje to bardzo dobre rezultaty i umożliwia radzenie sobie z sytuacjami, które dla patch/diff byłyby trudne do realizacji, jak przeniesienia plików.
+Rsync umożliwia też dostęp na bieżąco, w przeciwieństwie do ,,raz na dzień'' w przypadku patch/diff. \cite{5}
 \subsection{Parametry}
 składnia: \fbox{ rsync [PARAMETRY] ŹRÓDŁO [CEL] }
 
@@ -88,10 +90,10 @@ Wśród wielu parametrów, jakie posiada rsync, warto wymienić najczęściej st
 -q & - nie wypisuj błędów
 \end{tabular}
 \end{center}
-Kompletny zbiór znaleźć można pod adresem \cite{6} lub wykonując \verb|man rsync|.
+Kompletny zbiór znaleźć można pod adresem \cite{6} lub wykonując \verb|man rsync| na systemach z rodziny Unix.
 
 \subsection{Przykłady użycia}
-Synchronizację można przeprowadzić między katalogami na lokalnym urządzeniu lub też na zdalny serwer: łącząc się z demonem \verb|rsyncd| (zazwyczaj na porcie 873) lub poprzez SSH (standardowo port 22).
+Synchronizację można przeprowadzić między katalogami na lokalnym urządzeniu lub też na zdalny serwer: łącząc się z demonem \verb|rsyncd| (zazwyczaj na porcie 873) lub poprzez SSH (standardowo - port 22).
 Zasadę działania najłatwiej tłumaczy się na przykładach. Podam więc kilka z nich, opisując je pokrótce.
 
 \subsubsection{lokalnie}
@@ -148,7 +150,7 @@ pobieranie:
 \fbox{ rsync [PARAMETRY] rsync://[LOGIN@]HOST[:PORT]/ŹRÓDŁO [CEL] } \\
 \end{center}
 
-W tym przypadku, w adresie, zamiast jednego dwukropka, używamy dwóch (::) lub podajemy adres \verb|rsync://| (z opcjonalnym numerem portu). Dużym ułatwieniem jest tu listowanie dostępnych modułów (należy podać jedynie adres lub nr IP serwera): \fbox{rsync serwer::}. Należy zauważyć tu pewną różnicę - zamiast katalogu źródłowego/docelowego podaje się tu moduł. Lista modułów przechowywana jest na zdalnym komputerze w pliku \verb|/etc/rsyncd.conf|\footnote{zależnie od dystrybucji, może to być także /etc/rsyncd/rsyncd.conf bądź inny}.\\
+W tym przypadku, w adresie, zamiast jednego dwukropka, używamy dwóch (::) lub podajemy adres \verb|rsync://| (z opcjonalnym numerem portu). Dużym ułatwieniem jest tu listowanie dostępnych modułów (należy podać jedynie adres lub nr IP serwera): \fbox{rsync serwer::}. Należy zauważyć tu pewną różnicę - zamiast katalogu źródłowego/docelowego podaje się tu moduł. Lista modułów przechowywana jest na zdalnym komputerze w pliku \verb|/etc/rsyncd.conf|\footnote{zależnie od dystrybucji, może to być także /etc/rsyncd/rsyncd.conf, bądź inny}.\\
 Przykład wykonania takiego polecenia:
 \begin{verbatim}
 $ rsync 192.168.128.3::
@@ -174,14 +176,14 @@ $ cat /etc/rsyncd.conf
     comment = archiwum kopii
 (...)
 \end{verbatim}
-Jak widać. katalogi mogą być zabezpieczone przed nieautoryzowanym dostępem. Cała konfiguracja sprowadza się do podania lokalizacji pliku\footnote{istnieje tu pewna dowolność w wyborze lokalizacji i nazwy pliku, jednak wiele źródeł podaje folder ,,/etc/'' lub ,,/etc/rsync/'' za typowy; należy pamiętać o nadaniu praw odczytu i zapisu jedynie dla użytkownika root przy pomocy np.: ,,chmod 600 /etc/rsync\_users; chown root.root /etc/rsync\_users''} \verb|secrets file = plik_z_hasłami| (jak wyżej) oraz na umieszczeniu w nim linii z nazwą użytkownika oraz hasłem, oddzielonych dwukropkiem: 
+Jak widać. katalogi mogą być zabezpieczone przed nieautoryzowanym dostępem. Cała konfiguracja sprowadza się do podania lokalizacji pliku (istnieje tu pewna dowolność w wyborze lokalizacji i nazwy pliku, jednak wiele źródeł podaje folder ,,/etc/'' lub ,,/etc/rsync/'' za typowy; należy pamiętać o nadaniu praw odczytu i zapisu jedynie dla użytkownika root przy pomocy np.: ,,chmod 600 /etc/rsync\_users; chown root.root /etc/rsync\_users'') \verb|secrets file = plik_z_hasłami| (jak wyżej) oraz na umieszczeniu w nim linii z nazwą użytkownika oraz hasłem, oddzielonych dwukropkiem: 
 \begin{verbatim}
 $ sudo cat /etc/rsync_user
 test:test
 spychalm:tajnehaslo
 (...)
 \end{verbatim}
-
+\noindent
 Dla zobrazowania:
 \begin{verbatim}
 $ rsync -auv 192.168.128.3::shared
@@ -196,7 +198,7 @@ total size is 716  speedup is 4.29
 \end{verbatim}
 
 \subsubsection{za pomocą SSH}
-Czasem zachodzi potrzeba synchronizacji poufnych danych, bądź sytuacja, gdy na serwerze nie jest uruchomiony \verb|rsyncd|. Posłużyć możemy się wtedy opcją kopiowania przez tunel SSH\footnote{o ile ta usługa jest obecna, a my posiadamy aktywne konto}. W takim przypadku używamy parametru ,,\verb|-e|'', podając (w cudzysłowie) \verb|"ssh [-l <uzytkownik>] [-p <port>] ..."|. Dla bieżącego użytkownika oraz portu 22 będzie to po prostu: \fbox{ rsync -av -e ,,ssh'' serwer:/var/tmp }. Zobaczmy jak wygląda takie wywołanie (do serwera sshd na porcie \verb|12345|):
+Czasem zachodzi potrzeba synchronizacji poufnych danych, bądź sytuacja, gdy na serwerze nie jest uruchomiony \verb|rsyncd|. Posłużyć możemy się wtedy opcją kopiowania przez tunel SSH\footnote{o ile ta usługa jest obecna, a my posiadamy aktywne konto}. W takim przypadku używamy parametru ,,\verb|-e|'', podając (w cudzysłowie) \verb|"ssh [-l <uzytkownik>] [-p <port>] ..."|. Dla bieżącego użytkownika oraz portu 22 będzie to po prostu: \fbox{rsync -av -e ,,ssh'' serwer:/var/tmp }. Zobaczmy jak wygląda takie wywołanie (do serwera sshd na porcie \verb|12345|):
 \begin{verbatim}
 $ rsync -avn -e "ssh -p 12345" serwer:~/sync 
 Warning: Permanently added '[serwer]' (RSA) to the list of known hosts.
@@ -347,16 +349,16 @@ Oczywiście każdy może napisać od nowa lub dowolnie edytować te skrypty, st�
 \item {\bf Uruchamiamy Cygwina}, z poziomu pulpitu (skrótu), lokalizacji programu (np. C:/cygwin/Cygwin.bat) lub Menu Start (Cygwin Bash Shell).
 \item {\bf Generujemy klucze: publiczny i prywatny - \verb|$ssh-keygen -t rsa|}. Na pytanie o hasło/passphraze wciskamy enter. Polecenie wygeneruje dwa pliki, domyślnie w katalogu domowym w ,,ssh''. Pierwszy o nazwie ,,id\_rsa'' zawiera klucz prywatny, który nie może być nikomu udostępniany. Drugi o nazwie ,,id\_rsa.pub'' zawiera klucz publiczny, który wysyłamy na dowolny serwer, z którym zamierzamy ustanawiać połączenie.
 
-\item {\bf Wysyłamy klucz publiczny na serwer}, z którym chcemy łączyć się bez hasła. Użyjemy do tego polecenia \verb|scp ~/ssh/id_rsa.pub [uzytkownik]@host:~/|\footnote{można użyć tu innego sposobu wysyłania, jednak ten jest najprostszy}
+\item {\bf Wysyłamy klucz publiczny na serwer}, z którym chcemy łączyć się bez hasła. Użyjemy do tego polecenia\footnote{można użyć tu innego sposobu wysyłania, jednak ten jest najprostszy} \verb|scp ~/ssh/id_rsa.pub [uzytkownik]@host:~/|
 
 \item {\bf Logujemy się na zdalny host}, jeszcze przy pomocy hasła. Tam poleceniem \verb|cat ~/id_rsa.pub >> ~/ssh/authorized_keys|\footnote{jeżeli katalog ,,ssh'' nie istnieje, zakładamy go przy pomocy ,,mkdir ssh''} dodajemy nasz klucz do listy kluczy autoryzowanych do łączenia się z naszym hostem.
 \end{enumerate}
 Od tej pory mamy możliwość logowania się bez hasła do zdalnego serwera, a tym samym nasza zautomatyzowana synchronizacja nie będzie nas za każdym razem pytała o hasło, oczywiście zachowując bezpieczny kanał transmisji plików.
 
-Dużym ułatwieniem jest skorzystanie z gotowego programu ,,ssh-copy-id''\cite{9}, który wykonuje wysyłanie i dopisanie klucza na zdalnym komputerze za nas. Generujemy klucze, a następnie uruchamiamy \verb|ssh-copy-id  [uzytkownik]@host|.
+Dużym ułatwieniem jest skorzystanie z gotowego programu ,,ssh-copy-id''\cite{9}, który wykonuje wysyłanie i dopisanie klucza na zdalnym komputerze za nas. Generujemy klucze, a następnie uruchamiamy \verb|ssh-copy-id [uzytkownik]@host|.
 
 \section{Testowanie}
-Cały proces instalacji i konfiguracji przeprowadziłem początkowo na maszynie wirtualnej z zainstalowanym systemem Windows 7. Następnie całość powtórzyłem na innej maszynie wirtualnej z Windowsem XP oraz na komputerach, z zainstalowanymi tymi wersjami Windowsa, jako ich macierzystymi systemami operacyjnymi. Przykładowe programy (z rozdziału \ref{dosynch}). testowane były tylko na systemach wirtualnych, z racji braku Windowsa na moim notebooku. Na żadnym z tych urządzeń nie zauważyłem problemu z pobieraniem, instalacją czy konfiguracją \verb|cwRsync|'a. Jednakże, może się tak zdarzyć, że podane przeze mnie strony internetowe lub wersje programów, nie będą dostępne. Należy wówczas skorzystać z wyszukiwarki internetowej i za jej pomocą znaleźć serwery lustrzane lub strony, gdzie podane oprogramowanie będzie możliwe do pobrania. 
+Cały proces instalacji i konfiguracji przeprowadziłem początkowo na maszynie wirtualnej z zainstalowanym systemem Windows 7. Następnie całość powtórzyłem na innej maszynie wirtualnej z Windowsem XP oraz na komputerach, z zainstalowanymi tymi wersjami Windowsa, jako ich macierzystymi systemami operacyjnymi. Przykładowe programy (z rozdziału \ref{dosynch}.) testowane były tylko na systemach wirtualnych, z racji braku Windowsa na moim notebooku. Na żadnym z tych urządzeń nie zauważyłem problemu z pobieraniem, instalacją czy konfiguracją \verb|cwRsync|'a. Jednakże, może się tak zdarzyć, że podane przeze mnie strony internetowe lub wersje programów, nie będą dostępne. Należy wówczas skorzystać z wyszukiwarki internetowej i za jej pomocą znaleźć serwery lustrzane lub strony, gdzie podane oprogramowanie będzie możliwe do pobrania. 
 
 \section{Wnioski}
 Z synchronizacją danych spotykamy się na co dzień. Większość z nas kopiuje dane z jednego nośnika na inny - jedni robią to ,,ręcznie'', inni mają do tego skrypty. Osobiście uważam, że druga opcja jest znacznie korzystniejsza, zwłaszcza, gdy chcemy, by ten proces wykonywał się automatycznie. 
