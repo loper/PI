@@ -133,7 +133,7 @@ Przesłany został jedynie \verb|nowy_plik| - nie ma sensu kopiować całej resz
  wysyłanie: \fbox{ rsync [PARAMETRY] ŹRÓDŁO [LOGIN@]HOST:CEL } \\
  pobieranie: \fbox{ rsync [PARAMETRY] [LOGIN@]HOST:ŹRÓDŁO [CEL] }
 \end{center}
-przykłady:\\
+Przykłady:\\
 \fbox{rsync -avz serwer:/var/log /home/tmp} - synchronizowanie, w trybie archiwalnym, z użyciem kompresji, logów z katalogu \verb|/var/log| na komputerze zdalnym (\verb|serwer|\footnote{można tu podać adres albo nr IP hosta (nazwa ,,serwer'' służy do zobrazowania kopiowania pomiędzy różnymi urządzeniami w sieci)}) do \verb|/home/tmp| na komputerze lokalnym.\\
 Działa to tak samo w drugą stronę (z komputera lokalnego na serwer): \fbox{rsync -avz /home/tmp serwer:/var/log}.
 
